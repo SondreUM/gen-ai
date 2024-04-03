@@ -8,7 +8,7 @@ API_VERSION = "2024-02-01" # https://learn.microsoft.com/en-us/azure/ai-services
 ENDPOINT = "https://gpt-course.openai.azure.com/"
 DEPLOYMENT_NAME = "gpt-35"
 
-def init_agent():
+def init_agent() -> AzureChatOpenAI:
     global API_KEY
     
     with open(PROJECT_PATH / "api_key.txt") as file:
