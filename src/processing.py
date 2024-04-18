@@ -10,10 +10,8 @@ def run_crawler(urls: list[str], max_depth: int):
     """Bypass limitations of scrapy by running the crawler in a separate process"""
     computer = platform.system()
     if computer == "Windows":
-        print("Windows")
         subprocess.run(["python", f"{PROJECT_PATH}/multicrawl.py"] + [str(max_depth)] + urls)
     elif computer == "Linux" or computer == "Darwin":
-        print("Unix")
         subprocess.run(["python3", f"{PROJECT_PATH}/multicrawl.py"] + [str(max_depth)] + urls)
     else:
         print("OS not supported")
