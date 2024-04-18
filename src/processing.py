@@ -2,19 +2,27 @@
 # -*- coding: utf-8 -*-
 
 from pathlib import Path
-from gpt import init_agent, PROJECT_PATH
+from gpt import PROJECT_PATH
 import subprocess
 import platform
+
 
 def run_crawler(urls: list[str], max_depth: int):
     """Bypass limitations of scrapy by running the crawler in a separate process"""
     computer = platform.system()
-    if computer == "Windows":
-        subprocess.run(["python", f"{PROJECT_PATH}/multicrawl.py"] + [str(max_depth)] + urls)
-    elif computer == "Linux" or computer == "Darwin":
-        subprocess.run(["python3", f"{PROJECT_PATH}/multicrawl.py"] + [str(max_depth)] + urls)
-    else:
-        print("OS not supported")
+
+    match computer:
+        case "Windows":
+            subprocess.run(
+                ["python", PROJECT_PATH.joinpath("multicrawl.py")] + [str(max_depth)] + urls
+            )
+        case "Linux", "Darwin":
+            subprocess.run(
+                ["python3", PROJECT_PATH.joinpath("multicrawl.py")] + [str(max_depth)] + urls
+            )
+        case _:
+            print("OS not supported")
+
 
 if __name__ == "__main__":
     # clean up data directory

@@ -45,7 +45,7 @@ Clone the repository in cli or download the zip file from the github repository.
 git clone git@github.com:SondreUM/gen-ai.git
 ```
 
-To run the project, you need to have `python3` and `python3-pip` installed on your system.
+To run the project, you need to have `python3` version 3.10 or newer, and `python3-pip` installed on your system.
 Then, you can install the project dependencies by running the following commands:
 
 ```bash
