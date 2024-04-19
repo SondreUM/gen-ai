@@ -2,6 +2,8 @@
 
 # gpt api key
 api_key*
+# 1881 api key
+1881_key*
 # crawled data local cache
 crawler_data/
 
