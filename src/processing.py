@@ -1,16 +1,37 @@
-from scrapy.crawler import CrawlerProcess
-from crawler.spiders.quotes_spider import QuotesSpider
-from scrapy.utils.project import get_project_settings
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-from gpt import init_agent, PROJECT_PATH
-import os
+from pathlib import Path
+from gpt import PROJECT_PATH
+import subprocess
+import platform
+
+
+def run_crawler(urls: list[str], max_depth: int):
+    """Bypass limitations of scrapy by running the crawler in a separate process"""
+    computer = platform.system()
+
+    match computer:
+        case "Windows":
+            subprocess.run(
+                ["python", PROJECT_PATH.joinpath("multicrawl.py")] + [str(max_depth)] + urls
+            )
+        case "Linux", "Darwin":
+            subprocess.run(
+                ["python3", PROJECT_PATH.joinpath("multicrawl.py")] + [str(max_depth)] + urls
+            )
+        case _:
+            print("OS not supported")
+
 
 if __name__ == "__main__":
     # clean up data directory
-    html_files = os.listdir(f"{PROJECT_PATH}/crawler_data")
-    for file in html_files:
-        os.remove(f"crawler_data/{file}")
+    path: Path = Path(PROJECT_PATH).joinpath("crawler_data")
 
-    process = CrawlerProcess(settings=get_project_settings())
-    process.crawl(QuotesSpider, urls=["https://uit.no/research/csg?p_document_id=837262&Baseurl=%2Fresearch%2F"], max_depth=2)
-    process.start()
+    path.mkdir(parents=True, exist_ok=True)
+
+    for file in path.iterdir():
+        file.unlink()
+
+    run_crawler(["https://uit.no/research/csg?p_document_id=837262&Baseurl=%2Fresearch%2F"], 2)
+    run_crawler(["https://uit.no/startsida"], 1)
