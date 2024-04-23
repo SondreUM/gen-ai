@@ -2,8 +2,12 @@
 
 # gpt api key
 api_key*
+# 1881 api key
+1881_key*
 # crawled data local cache
 crawler_data/
+# 1881 data local cache
+yellowpages_data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
