@@ -5,7 +5,7 @@ from pathlib import Path
 from gpt import PROJECT_PATH
 import subprocess
 import platform
-from api.yellowpages import get_yellowpages_data
+from api.yellowpages.yellowpages import get_yellowpages_data
 
 
 def run_crawler(urls: list[str], max_depth: int):
