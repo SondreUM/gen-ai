@@ -80,9 +80,7 @@ python src/main.py
 
 ## Project structure
 
-> Crawler+APIs -> Filtering layer -> Extractor/reduce model -> tmp-dump -> Generator model (LLM) -> Report
-
-TODO: insert UML diagram
+![UML diagram](docs/img/uml_bck.png "UML diagram")
 
 ### Models
 
