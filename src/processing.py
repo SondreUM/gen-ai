@@ -38,15 +38,4 @@ if __name__ == "__main__":
     run_crawler(["https://uit.no/research/csg?p_document_id=837262&Baseurl=%2Fresearch%2F"], 2)
     run_crawler(["https://uit.no/startsida"], 1)
 
-    parse_HTML()
-
-
-    # yellow = YellowpagesAPI()
-    # results = yellow.search("uit")
-
-    # # Get the first 3 results
-    # first_3 = results[:3]
-    # for contact in first_3:
-    #     orgnum = contact['organizationNumber']
-    #     name = contact['name']
-    #     yellow.get(orgnum, name)
+    # get_yellowpages_data("uit")

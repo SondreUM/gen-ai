@@ -27,10 +27,8 @@ class YellowpagesAPI(APIinterface):
             print("1881 API key not provided. Please add it to keys/1881_key.txt")
             return
 
-        self.headers = {'Cache-Control': 'no-cache',
-                        'Ocp-Apim-Subscription-Key': self.API_KEY}
+        self.headers = {"Cache-Control": "no-cache", "Ocp-Apim-Subscription-Key": self.API_KEY}
         self.path = path
-
 
     """ Search for a company name in the 1881 API, and write the results to disk"""
     def search(self, query: str) -> list[dict]:
@@ -56,21 +54,20 @@ class YellowpagesAPI(APIinterface):
         with resultpath.open("w") as file:
             file.write(string_data)
 
-        return data['contacts']
-
+        return data["contacts"]
 
     """ Get the details of a company from the 1881 API, and write the results to disk"""
     def get(self, id: int, name: str) -> dict:
 
         if self.API_KEY is None:
             return {}
-        
+
         URL = f"https://services.api1881.no/lookup/organizationnumber/{id}"
         response = requests.get(URL, headers=self.headers)
         if response.status_code != 200:
             print(f"Error: {response.status_code}")
             return {}
-        
+
         contact_data = response.json()
 
         # Write the response to a file
