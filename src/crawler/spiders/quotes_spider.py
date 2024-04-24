@@ -5,8 +5,9 @@ from scrapy.crawler import CrawlerProcess
 from bs4 import BeautifulSoup
 import os
 
-ROOT_PATH = Path(__file__).parent.parent.parent
-DATA_PATH = ROOT_PATH.joinpath("crawler_data")
+from config import DATA_PATH
+
+CRAWLER_DATA_PATH = DATA_PATH.joinpath("crawler_data")
 
 
 class QuotesSpider(scrapy.Spider):
@@ -28,8 +29,7 @@ class QuotesSpider(scrapy.Spider):
             self.max_depth = max_depth
 
         # check that the data directory exists
-        if not DATA_PATH.exists():
-            DATA_PATH.mkdir()
+        CRAWLER_DATA_PATH.mkdir(parents=True, exist_ok=True)
 
         super().__init__(name, **kwargs)
 
@@ -48,7 +48,7 @@ class QuotesSpider(scrapy.Spider):
         filename = f"{page}.html"
 
         # save data
-        (DATA_PATH / filename).write_bytes(response.body)
+        (CRAWLER_DATA_PATH / filename).write_bytes(response.body)
 
         if depth >= self.max_depth:
             # limit the depth of the crawler
@@ -61,7 +61,7 @@ class QuotesSpider(scrapy.Spider):
 
 if __name__ == "__main__":
     # clean up data directory
-    html_files = os.listdir(f"{DATA_PATH}")
+    html_files = os.listdir(f"{CRAWLER_DATA_PATH}")
     for file in html_files:
         os.remove(f"crawler_data/{file}")
 
