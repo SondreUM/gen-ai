@@ -25,8 +25,9 @@ if __name__ == "__main__":
     max_depth = int(sys.argv[1])
     urls: list[str] = sys.argv[2:]
 
-    # divide up urls and crawl them in parallel/concurrently
     input = [(url, max_depth) for url in urls]
     with mp.Pool() as pool:
+        # crawl urls one by one in parallel
+        # if not enough logical cores, some will be queued until a core is free
         for result in pool.imap_unordered(multicrawl, input):
             pass
