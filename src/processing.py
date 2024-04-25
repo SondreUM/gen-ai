@@ -5,7 +5,7 @@ import config
 from pathlib import Path
 import subprocess
 import platform
-from api.yellowpages.yellowpages import get_yellowpages_data
+from api.yellowpages.yellowpages import YellowpagesAPI
 
 
 def run_crawler(urls: list[str], max_depth: int):
@@ -37,4 +37,13 @@ if __name__ == "__main__":
     run_crawler(["https://uit.no/research/csg?p_document_id=837262&Baseurl=%2Fresearch%2F"], 2)
     run_crawler(["https://uit.no/startsida"], 1)
 
-    # get_yellowpages_data("uit")
+
+    # yellow = YellowpagesAPI()
+    # results = yellow.search("uit")
+
+    # # Get the first 3 results
+    # first_3 = results[:3]
+    # for contact in first_3:
+    #     orgnum = contact['organizationNumber']
+    #     name = contact['name']
+    #     yellow.get(orgnum, name)
