@@ -26,7 +26,7 @@ if __name__ == "__main__":
     max_depth = int(sys.argv[1])
     urls: list[str] = sys.argv[2:]
 
-    # divide up urls and crawl them in parallel
+    # divide up urls and crawl them in parallel/concurrently
     splits = array_split(urls, mp.cpu_count())
     splits = [split.tolist() for split in splits if split.size > 0]
     input = [(split, max_depth) for split in splits]
