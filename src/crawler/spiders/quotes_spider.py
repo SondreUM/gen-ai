@@ -36,9 +36,11 @@ class QuotesSpider(scrapy.Spider):
         soup = BeautifulSoup(response.body, "html.parser")
         links = []
         for link in soup.find_all("a"):
-            links.append(link.get("href"))
+            url = str(link.get("href"))
+            if url:
+                links.append(url)
 
-        return [link for link in links if str(link)[0] == "/" and link not in self.visited]
+        return [link for link in links if link[0] == "/" and link not in self.visited]
 
     def parse(self, response, depth=0):
         self.visited.append(response.url)
