@@ -20,6 +20,9 @@ class YellowpagesAPI(APIinterface):
         try:
             with open(KEY_PATH / "1881_key.txt") as file:
                 self.API_KEY = file.read().strip()
+                if self.API_KEY == "":
+                    self.API_KEY = None
+                    raise FileNotFoundError
         except FileNotFoundError:
             print("1881 API key not provided. Please add it to keys/1881_key.txt")
             return
@@ -27,11 +30,13 @@ class YellowpagesAPI(APIinterface):
         self.headers = {'Cache-Control': 'no-cache',
                         'Ocp-Apim-Subscription-Key': self.API_KEY}
         self.path = path
-        print("Data path: ", self.path)
 
 
     """ Search for a company name in the 1881 API, and write the results to disk"""
     def search(self, query: str) -> list[dict]:
+
+        if self.API_KEY is None:
+            return []
 
         # Company name needs to have "%20" instead of spaces
         query = query.replace(" ", "%20")
@@ -56,6 +61,10 @@ class YellowpagesAPI(APIinterface):
 
     """ Get the details of a company from the 1881 API, and write the results to disk"""
     def get(self, id: int, name: str) -> dict:
+
+        if self.API_KEY is None:
+            return {}
+        
         URL = f"https://services.api1881.no/lookup/organizationnumber/{id}"
         response = requests.get(URL, headers=self.headers)
         if response.status_code != 200:
