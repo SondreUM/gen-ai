@@ -1,12 +1,16 @@
 # custom ignore
+TEST.*
 
-# gpt api key
+# output files
+output/
+
+# api keys
+keys
 api_key*
-# 1881 api key
 1881_key*
-# crawled data local cache
+
+# local data caches
 crawler_data/
-# 1881 data local cache
 yellowpages_data/
 
 # Byte-compiled / optimized / DLL files

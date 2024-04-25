@@ -10,6 +10,8 @@
   - [Project description](#project-description)
     - [Project activity](#project-activity)
   - [Installation](#installation)
+    - [API keys](#api-keys)
+      - [Optional keys](#optional-keys)
   - [Usage](#usage)
   - [Project structure](#project-structure)
     - [Models](#models)
@@ -65,10 +67,16 @@ source venv/bin/activate
 
 Deleting the virtual environment folder will uninstall all dependencies from the project.
 
-## Usage
+### API keys
 
-The project requires a gpt api key to be provided as plain text in the `src/api_key.txt` file.
+The project requires a gpt api key to be provided as plain text in the `src/keys/gpt_key.txt` file.
 The key can be obtained from <https://beta.openai.com/signup/>
+
+#### Optional keys
+
+- `src/keys/1881_key.txt` - 1881.no API key
+
+## Usage
 
 To run the project, you can run the following command:
 

@@ -4,12 +4,12 @@
 from abc import ABC, abstractmethod
 
 
-class APIgetter(ABC):
+class APIinterface(ABC):
 
     @abstractmethod
     def search(self, query: str, **kwargs) -> list[dict]:
         pass
 
     @abstractmethod
-    def get(self, id: str, **kwargs) -> dict:
+    def get(self, id: int, **kwargs) -> dict:
         pass

@@ -1,28 +1,28 @@
-
 import requests
 import json
 from pathlib import Path
-import os
-
+from config import DATA_PATH, KEY_PATH
 
 API_KEY = None
-PARENT_PATH = Path(__file__).parent
 
 """ Search for a company name in the 1881 API, and write the results to disk"""
 def get_yellowpages_data(company_name: str):
 
-    path: Path = Path(PARENT_PATH).joinpath("yellowpages_data")
+    path: Path = DATA_PATH.joinpath("yellowpages_data")
     path.mkdir(parents=True, exist_ok=True)
 
     for file in path.iterdir():
         file.unlink()
 
-    with open(PARENT_PATH / "1881_key.txt") as file:
-        API_KEY = file.read().strip()
+    try:
+        with open(KEY_PATH / "1881_key.txt") as file:
+            API_KEY = file.read().strip()
+    except FileNotFoundError:
+        print("1881 API key not provided. Please add it to keys/1881_key.txt")
+        return False
 
     headers = {'Cache-Control': 'no-cache',
                'Ocp-Apim-Subscription-Key': API_KEY}
-    
 
     # Company name needs to have "%20" instead of spaces
     company_name = company_name.replace(" ", "%20")
@@ -33,7 +33,7 @@ def get_yellowpages_data(company_name: str):
     if response.status_code != 200:
         print(f"Error: {response.status_code}")
         return False
-    
+
     # Write the response to a file
     data = response.json()
     string_data = json.dumps(data, indent=4)
@@ -41,7 +41,6 @@ def get_yellowpages_data(company_name: str):
     with resultpath.open("w") as file:
         file.write(string_data)
 
-    
     # Request info for top 3 results and write to file
     first_3 = data['contacts'][:3]
     for contact in first_3:
@@ -50,14 +49,12 @@ def get_yellowpages_data(company_name: str):
         response = requests.get(URL2, headers=headers)
         if response.status_code != 200:
             print(f"Error: {response.status_code}")
-            
+
         contact_data = response.json()
         string_contact = json.dumps(contact_data, indent=4)
 
         filepath = path / f"{contact['name']}.json"
         with filepath.open("w") as file:
             file.write(string_contact)
-
-    
 
     return True
