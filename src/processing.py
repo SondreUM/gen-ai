@@ -57,17 +57,18 @@ if __name__ == "__main__":
     # clean up data directory
     path: Path = config.DATA_PATH.joinpath("crawler_data")
     path.mkdir(parents=True, exist_ok=True)
-    # for file in path.iterdir():
-    #     file.unlink()
+    for file in path.iterdir():
+        file.unlink()
     arg_parser = init_parser()
     args = arg_parser.parse_args()
     org = args.entity
     relevant_urls = search_google(org)
-    for url in relevant_urls:
-        print(url)
 
-    # run_crawler(["https://uit.no/research/csg?p_document_id=837262&Baseurl=%2Fresearch%2F"], 2)
-    # run_crawler(["https://uit.no/startsida"], 1)
+    # remove wikipedia links due to their extreme amounts of links
+    for i in range(len(relevant_urls)):
+        if "wikipedia" in relevant_urls[i]:
+            relevant_urls.pop(i)
+            break
 
-    # get_yellowpages_data("uit")
-    # parse_data()
+    run_crawler(relevant_urls, 2)
+    parse_data()
