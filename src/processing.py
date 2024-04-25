@@ -28,7 +28,7 @@ def run_crawler(urls: list[str], max_depth: int):
 
 def parse_data():
     """Parse the data collected by the crawler"""
-    crawler_dir: Path = Path(config.PROJECT_PATH).joinpath("crawler_data")
+    crawler_dir: Path = Path(config.DATA_PATH).joinpath("crawler_data")
     parsed_dir = crawler_dir.joinpath("parsed")
     parsed_dir.mkdir(parents=True, exist_ok=True)
     for file in parsed_dir.iterdir():
@@ -40,10 +40,10 @@ def parse_data():
         if file.is_dir():
             continue
         parsed_data = None
-        with open(file, "r") as f:
+        with open(file, "r", encoding="utf-8", errors="ignore") as f:
             data = f.read()
             parsed_data = h.handle(data)
-        with open(f"{parsed_dir.joinpath(file.with_suffix('.md').name)}", "w") as f:
+        with open(f"{parsed_dir.joinpath(file.with_suffix('.md').name)}", "w", encoding="utf-8", errors="ignore") as f:
             f.write(parsed_data)
 
 
@@ -70,5 +70,5 @@ if __name__ == "__main__":
             relevant_urls.pop(i)
             break
 
-    run_crawler(relevant_urls, 2)
+    run_crawler(relevant_urls, 1)
     parse_data()
