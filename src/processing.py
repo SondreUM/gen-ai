@@ -29,7 +29,7 @@ def run_crawler(urls: list[str], max_depth: int):
 def parse_data():
     """Parse the data collected by the crawler"""
     crawler_dir: Path = Path(config.DATA_PATH).joinpath("crawler_data")
-    parsed_dir = crawler_dir.joinpath("parsed")
+    parsed_dir = crawler_dir.parent.joinpath("parsed_data")
     parsed_dir.mkdir(parents=True, exist_ok=True)
     for file in parsed_dir.iterdir():
         file.unlink()
