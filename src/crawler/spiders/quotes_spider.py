@@ -1,9 +1,7 @@
-from pathlib import Path
-from typing import Any
 import scrapy
+from typing import Any
 from scrapy.crawler import CrawlerProcess
 from bs4 import BeautifulSoup
-import os
 
 from config import DATA_PATH
 
@@ -61,9 +59,8 @@ class QuotesSpider(scrapy.Spider):
 
 if __name__ == "__main__":
     # clean up data directory
-    html_files = os.listdir(f"{CRAWLER_DATA_PATH}")
-    for file in html_files:
-        os.remove(f"crawler_data/{file}")
+    for file in CRAWLER_DATA_PATH.iterdir():
+        file.unlink()
 
     process = CrawlerProcess()
     process.crawl(
