@@ -5,13 +5,17 @@ import sys
 from scrapy.crawler import CrawlerProcess
 from crawler.spiders.quotes_spider import QuotesSpider
 from scrapy.utils.project import get_project_settings
+import multiprocessing as mp
+from numpy import array_split
 
 
-def multicrawl(max_depth: int, urls: list[str] | tuple[str], timeout: int = 900) -> None:
-
+def multicrawl(link_depth: tuple[list[str], int], timeout: int = 900) -> None:
+    """Crawl the urls to a specified depth"""
+    urls, max_depth = link_depth
     process = CrawlerProcess(settings=get_project_settings())
     process.crawl(QuotesSpider, urls=urls, max_depth=max_depth)
     process.start()
+    print(f"Finished crawling {urls} to a depth of {max_depth}")
 
 
 if __name__ == "__main__":
@@ -22,4 +26,11 @@ if __name__ == "__main__":
     max_depth = int(sys.argv[1])
     urls: list[str] = sys.argv[2:]
 
-    multicrawl(max_depth, urls)
+    # divide up urls and crawl them in parallel
+    splits = array_split(urls, mp.cpu_count())
+    splits = [split.tolist() for split in splits if split.size > 0]
+    input = [(split, max_depth) for split in splits]
+    
+    with mp.Pool() as pool:
+        for result in pool.imap_unordered(multicrawl, input):
+            pass
