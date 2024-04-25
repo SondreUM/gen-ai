@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import config
 from pathlib import Path
-from gpt import PROJECT_PATH
 import subprocess
 import platform
-from api.yellowpages import get_yellowpages_data
+from api.yellowpages.yellowpages import get_yellowpages_data
 import html2text
 from argument_parser import init_parser
 from googling import search_google
@@ -17,18 +17,18 @@ def run_crawler(urls: list[str], max_depth: int):
     match computer:
         case "Windows":
             subprocess.run(
-                ["python", PROJECT_PATH.joinpath("multicrawl.py")] + [str(max_depth)] + urls
+                ["python", config.PROJECT_PATH.joinpath("multicrawl.py")] + [str(max_depth)] + urls
             )
-        case "Linux", "Darwin":
+        case "Linux" | "Darwin":
             subprocess.run(
-                ["python3", PROJECT_PATH.joinpath("multicrawl.py")] + [str(max_depth)] + urls
+                ["python3", config.PROJECT_PATH.joinpath("multicrawl.py")] + [str(max_depth)] + urls
             )
         case _:
             print("OS not supported")
 
 def parse_data():
     """Parse the data collected by the crawler"""
-    crawler_dir: Path = Path(PROJECT_PATH).joinpath("crawler_data")
+    crawler_dir: Path = Path(config.PROJECT_PATH).joinpath("crawler_data")
     parsed_dir = crawler_dir.joinpath("parsed")
     parsed_dir.mkdir(parents=True, exist_ok=True)
     for file in parsed_dir.iterdir():
@@ -53,8 +53,9 @@ def search_wikipedia(query: str) -> None:
             
 
 if __name__ == "__main__":
+    config.init_paths()
     # clean up data directory
-    path: Path = Path(PROJECT_PATH).joinpath("crawler_data")
+    path: Path = config.DATA_PATH.joinpath("crawler_data")
     path.mkdir(parents=True, exist_ok=True)
     # for file in path.iterdir():
     #     file.unlink()
