@@ -6,6 +6,7 @@ from gpt import PROJECT_PATH
 import subprocess
 import platform
 from api.yellowpages import get_yellowpages_data
+import html2text
 
 
 def run_crawler(urls: list[str], max_depth: int):
@@ -24,6 +25,23 @@ def run_crawler(urls: list[str], max_depth: int):
         case _:
             print("OS not supported")
 
+def parse_data():
+    """Parse the data collected by the crawler"""
+    path: Path = Path(PROJECT_PATH).joinpath("crawler_data")
+    parsed_dir = path.joinpath("parsed")
+    parsed_dir.mkdir(parents=True, exist_ok=True)
+    h = html2text.HTML2Text()
+
+    for file in path.iterdir():
+        if file.is_dir():
+            continue
+        parsed_data = None
+        with open(file, "r") as f:
+            data = f.read()
+            parsed_data = h.handle(data)
+        with open(f"{parsed_dir.joinpath(file.with_suffix('.md').name)}", "w") as f:
+            f.write(parsed_data)
+            
 
 if __name__ == "__main__":
     # clean up data directory
@@ -31,10 +49,14 @@ if __name__ == "__main__":
 
     path.mkdir(parents=True, exist_ok=True)
 
-    for file in path.iterdir():
-        file.unlink()
+    parse_data()
 
-    run_crawler(["https://uit.no/research/csg?p_document_id=837262&Baseurl=%2Fresearch%2F"], 2)
-    run_crawler(["https://uit.no/startsida"], 1)
+    # for file in path.iterdir():
+    #     file.unlink()
 
-    get_yellowpages_data("uit")
+    # run_crawler(["https://uit.no/research/csg?p_document_id=837262&Baseurl=%2Fresearch%2F"], 2)
+    # run_crawler(["https://uit.no/startsida"], 1)
+
+    
+    
+    # get_yellowpages_data("uit")
