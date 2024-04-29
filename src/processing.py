@@ -6,6 +6,7 @@ from pathlib import Path
 import subprocess
 import platform
 from api.yellowpages.yellowpages import YellowpagesAPI
+from parseHTML import parse_HTML
 
 
 def run_crawler(urls: list[str], max_depth: int):
@@ -36,6 +37,8 @@ if __name__ == "__main__":
 
     run_crawler(["https://uit.no/research/csg?p_document_id=837262&Baseurl=%2Fresearch%2F"], 2)
     run_crawler(["https://uit.no/startsida"], 1)
+
+    parse_HTML()
 
 
     # yellow = YellowpagesAPI()
