@@ -1,4 +1,4 @@
-# BNN API request parameters
+# BNN API V2 request parameters
 
 ref: <https://data.brreg.no/enhetsregisteret/api/docs/index.html#enheter-sok>
 
