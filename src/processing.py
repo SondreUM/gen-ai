@@ -58,7 +58,7 @@ def filter_data(organization: str) -> None:
         with open(file, "r", encoding="utf-8", errors="ignore") as f:
             data = ""
             tokens = 0
-            # read at least 1000 tokens before invoking the model (model limit of gpt-35 is 4096 tokens)
+            # read at least 3000 tokens before invoking the model (model limit of gpt-35 is 4096 tokens)
             while True:
                 new_line = f.readline()
                 if len(new_line) == 0:
@@ -67,7 +67,7 @@ def filter_data(organization: str) -> None:
                     if len(gpt_response) > 0:
                         result += f"\n{gpt_response}"
                     break
-                elif tokens > 1000:
+                elif tokens > 3000:
                     # approaching token limit
                     data += new_line
                     gpt_response = use_gpt(data, organization)
