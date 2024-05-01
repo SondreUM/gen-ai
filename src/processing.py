@@ -5,6 +5,8 @@ import config
 from pathlib import Path
 import subprocess
 import platform
+from requests import get
+from html2text import HTML2Text
 from api.yellowpages.yellowpages import YellowpagesAPI
 from parseHTML import parse_HTML
 from argument_parser import init_parser
@@ -37,11 +39,11 @@ def use_gpt(data: str, organization: str) -> str:
                             and other information that would help give a more complete picture of the company.
                             You are specifically looking for information about the the company called {organization}.
                             Only respond with relevant information. if absolutely no useful information can be extract from the text,
-                            respond with 'NOTHING'. If specific information is not present in the text, do not make up information.
-                            Instead designate the information as 'not found'.
+                            respond with 'NOTHING'. If specific information is not present in the text, do not make up information,
+                            instead designate the information as 'not found'.
                             Can you efficiently extract the relevant information from the following text:\n
                             {data}""")
-    print(response.content)
+    
     return response.content if "NOTHING" not in response.content else ""
 
 
@@ -76,6 +78,7 @@ def filter_data(organization: str) -> None:
                     data = ""
                     tokens = 0
                 else:
+                    # continue reading
                     data += new_line
                     tokens += len(new_line.split())
 
@@ -104,30 +107,51 @@ def remove_duplicates() -> None:
 
 def search_wikipedia(query: str) -> None:
     """Search wikipedia for the query"""
-    pass
+    crawler_dir: Path = Path(config.DATA_PATH).joinpath("crawler_data")
+    modified_query = query.replace(" ", "%20")
+    modified_query = modified_query.replace("&", "%26")
+
+    # search for appropriate wikipedia page (limit defines how many results to return)
+    response = get(f"https://api.wikimedia.org/core/v1/wikipedia/en/search/title?q={modified_query}&limit=1")
+    data = response.json()
+    id = data["pages"][0]["id"]
+
+    # fetch the page
+    response = get(f"http://en.wikipedia.org/?curid={id}")
+    data = response.text
+
+    with open(crawler_dir.joinpath("wikipedia.html"), "w", encoding="utf-8", errors="ignore") as f:
+        f.write(data)
             
 
 if __name__ == "__main__":
     config.init_paths()
-    # clean up data directory
-    path: Path = config.DATA_PATH.joinpath("crawler_data")
-    path.mkdir(parents=True, exist_ok=True)
-    # for file in path.iterdir():
-    #     file.unlink()
     arg_parser = init_parser()
     args = arg_parser.parse_args()
     org = args.entity
-    # relevant_urls = search_google(org)
+
+    # clean up data directory
+    path: Path = config.DATA_PATH.joinpath("crawler_data")
+    path.mkdir(parents=True, exist_ok=True)
+    for file in path.iterdir():
+        file.unlink()
+    
+    relevant_urls = search_google(org)
 
     # remove wikipedia links due to their extreme amounts of links
-    # for i in range(len(relevant_urls)):
-    #     if "wikipedia" in relevant_urls[i]:
-    #         relevant_urls.pop(i)
-    #         break
+    # wikipedia search is handled separately
+    to_remove = []
+    for url in relevant_urls:
+        if "wikipedia" in url.lower():
+            to_remove.append(url)
+    for url in to_remove:
+        relevant_urls.remove(url)
 
-    # run_crawler(relevant_urls, 1)
+    run_crawler(relevant_urls, 1)
+    search_wikipedia(org)
     parse_HTML()
     filter_data(org)
+    # remove_duplicates()
 
     # yellow = YellowpagesAPI()
     # results = yellow.search("uit")

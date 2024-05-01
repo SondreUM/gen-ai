@@ -1,4 +1,3 @@
-
 import config
 from pathlib import Path
 from langchain_community.document_transformers import BeautifulSoupTransformer
@@ -16,7 +15,7 @@ def parse_HTML():
 
     bs4_transformer = BeautifulSoupTransformer()
     exclude = ["style", "script", "head", "title", "meta", "[document]"]
-    include = ["p", "h1", "h2", "h3", "h4", "h5", "h6", "a", "ul", "ol", "li", "div", "span"]
+    include = ["p", "h1", "h2", "h3", "h4", "h5", "h6", "a", "ul", "ol", "li", "div", "span", "b", "i"]
     document = []
  
     for file in crawler_dir.iterdir():
