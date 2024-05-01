@@ -6,7 +6,7 @@ from pathlib import Path
 import subprocess
 import platform
 from api.yellowpages.yellowpages import YellowpagesAPI
-import html2text
+from parseHTML import parse_HTML
 from argument_parser import init_parser
 from googling import search_google
 from gpt import init_agent
@@ -26,24 +26,6 @@ def run_crawler(urls: list[str], max_depth: int):
             )
         case _:
             print("OS not supported")
-
-def parse_data():
-    """Parse the data collected by the crawler"""
-    crawler_dir: Path = Path(config.DATA_PATH).joinpath("crawler_data")
-    parsed_dir = crawler_dir.parent.joinpath("parsed_data")
-    parsed_dir.mkdir(parents=True, exist_ok=True)
-    for file in parsed_dir.iterdir():
-        file.unlink()
-
-    h = html2text.HTML2Text()
-
-    for file in crawler_dir.iterdir():
-        parsed_data = None
-        with open(file, "r", encoding="utf-8", errors="ignore") as f:
-            data = f.read()
-            parsed_data = h.handle(data)
-        with open(f"{parsed_dir.joinpath(file.with_suffix('.md').name)}", "w", encoding="utf-8", errors="ignore") as f:
-            f.write(parsed_data)
 
 
 def use_gpt(data: str, organization: str) -> str:
@@ -144,7 +126,7 @@ if __name__ == "__main__":
     #         break
 
     # run_crawler(relevant_urls, 1)
-    parse_data()
+    parse_HTML()
     filter_data(org)
 
     # yellow = YellowpagesAPI()
