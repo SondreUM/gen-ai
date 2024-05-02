@@ -47,7 +47,7 @@ class _BnnApiRequestParams:
     naeringskode: Optional[List[str]] = None
     sisteInnsendteAarsregnskap: Optional[str] = None
     sort: Optional[str] = None
-    size: int = 20
+    size: int = 2
     page: int = 0
 
     def __post_init__(self):

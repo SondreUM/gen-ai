@@ -7,12 +7,10 @@ import json
 from typing import Optional, List
 from dataclasses import dataclass, asdict, field
 from api.api import APIinterface
-from config import DATA_PATH
 
 from .req import _BnnApiRequestParams, _BnnResPage
-from .res import _OrganizationData
+from .res import _OrganizationData, _BnnResLinks as _BnnResLink
 
-BNN_DATA_PATH = DATA_PATH.joinpath("bnn")
 
 HTTP = "http://"
 HTTPS = "https://"
@@ -23,8 +21,8 @@ FORMAT = "JSON"  # JSON or XML
 
 class BNN(APIinterface):
     def __init__(self) -> None:
-        self._search_data = None
-        self._search_link: str | None = None
+        self._search_data: list = []
+        self._search_link: _BnnResLink | None = None
         self._search_meta: _BnnResPage | None = None
         self._seach_url: str = f"{HTTPS}{BASE_API_URL}/enheter"
         self._search_header: dict[str, str] = {
@@ -33,7 +31,12 @@ class BNN(APIinterface):
 
     @property
     def search_data(self) -> list[dict]:
-        return self._search_data if self._search_data is not None else []
+        return self._search_data
+
+    def _res_parse(self, data: dict) -> None:
+        self._search_data = data.get("_embedded", {}).get("enheter", [])
+        self._search_meta = _BnnResPage(**data.get("page", None))
+        self._search_link = _BnnResLink.res_parse(data.get("_links", {}))
 
     def search(self, query: str | None, **kwargs) -> list[dict]:
         """implements the search method for the BNN API
@@ -49,7 +52,7 @@ class BNN(APIinterface):
 
         req = requests.get(
             url=self._seach_url,
-            params=params.to_dict(),
+            params=params.to_dict() if params is not None else None,
             allow_redirects=False,
         )
 
@@ -57,19 +60,27 @@ class BNN(APIinterface):
         req.raise_for_status()
 
         # update internal state
-        data: dict = req.json()
-        self._search_data = data.get("_embedded", {}).get("enheter", [])
-        self._search_meta = _BnnResPage(**data.get("page", None))
-        self._search_link = data.get("_links", {}).get("self", {}).get("href", None)
+        try:
+            data: dict = req.json()
+            self._res_parse(data)
+        except json.JSONDecodeError:
+            # bad response
+            raise ValueError("Bad response from server")
+        except Exception as e:
+            print(e)
 
         return self._search_data
 
-    def _search_paginate(self):
+    def search_paginate(self):
         if self._search_link is None or self._search_meta is None:
             raise ValueError("No search data available, perform a query/search first.")
-        elif self._search_meta.number + 1 >= self._search_meta.totalPages:
-            raise IndexError("No more pages to fetch.")
-        self._search_meta.number += 1
+        elif self._search_link.next is None:
+            raise ValueError("No next page available")
+
+        self._seach_url = self._search_link.next
+        if self._search_link.next == self._search_link.last:
+            self._search_link.last = None
+        return self.search(None)
 
     def get(self, id: int) -> dict:
         if self._search_data is None:

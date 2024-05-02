@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from dataclasses import dataclass, field
+from __future__ import annotations
+import json
+from dataclasses import dataclass, asdict
 from typing import List, Optional, Dict, Any
 
 
@@ -44,9 +46,10 @@ class _OrganizationData:
     vedtektsdato: Optional[str]
     vedtektsfestetFormaal: Optional[List[str]]
     aktivitet: Optional[List[str]]
+    href: Optional[str]
 
     @classmethod
-    def deserialize(cls, data: dict) -> "OrganizationData":
+    def deserialize(cls, data: dict) -> _OrganizationData:
         return cls(
             organisasjonsnummer=data.get("organisasjonsnummer", None),
             navn=data.get("navn", None),
@@ -89,5 +92,53 @@ class _OrganizationData:
             maalform=data.get("maalform"),
             vedtektsdato=data.get("vedtektsdato"),
             vedtektsfestetFormaal=data.get("vedtektsfestetFormaal"),
-            aktivitet=data.get("aktivitet"),
+            aktivitet=data.get("aktivitet", None),
+            href=data.get("_links", {}).get("self", {}).get("href", None),
         )
+
+
+@dataclass
+class _BnnResLinks:
+    """Dataclass for response links
+    ref: https://data.brreg.no/enhetsregisteret/api/docs/index.html#enheter-sok
+    """
+
+    first: str
+    self: str
+    last: str | None = None
+    next: Optional[str] = None
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+    def serialize(self) -> str:
+        return json.dumps(self.to_dict())
+
+    @staticmethod
+    def res_parse(data: dict) -> _BnnResLinks:
+        tmp = {}
+        for k, v in data.items():
+            if v is not None and isinstance(v, dict):
+                tmp[k] = v.get("href", None)
+        return _BnnResLinks(**tmp)
+
+    @staticmethod
+    def deserialize(data: str) -> _BnnResLinks:
+        """
+        Input:
+
+            "first": {
+                "href": "https://data.brreg.no/enhetsregisteret/api/enheter?navn=UiT&page=0&size=2"
+            },
+            "self": {
+                "href": "https://data.brreg.no/enhetsregisteret/api/enheter?navn=UiT&size=2&page=0"
+            },
+            "next": {
+                "href": "https://data.brreg.no/enhetsregisteret/api/enheter?navn=UiT&page=1&size=2"
+            },
+            "last": {
+                "href": "https://data.brreg.no/enhetsregisteret/api/enheter?navn=UiT&page=16&size=2"
+            }
+
+        """
+        return _BnnResLinks.res_parse(json.loads(data))
