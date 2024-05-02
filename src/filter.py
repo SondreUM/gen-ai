@@ -1,6 +1,7 @@
 import config
 from pathlib import Path
 from gpt import init_agent
+import os
 
 def use_gpt(data: str, organization: str) -> str:
     """Use the GPT model to filter the data"""
@@ -58,20 +59,31 @@ def filter_data(organization: str) -> None:
         if len(result) > 0:
             with open(f"{filtered_dir.joinpath(file.name)}", "w", encoding="utf-8", errors="ignore") as f:
                 f.write(result)
+    
+    generate_report()
 
 
-def remove_duplicates() -> None:
+def generate_report() -> None:
     """Remove duplicate information from the filtered data"""
     filtered_dir: Path = Path(config.DATA_PATH).joinpath("filtered_data")
+    report_file = filtered_dir.parent.joinpath("report.md")
 
-    for file in filtered_dir.iterdir():
+    files = os.listdir(filtered_dir)
+    with open(filtered_dir.joinpath(files[0]), "r", encoding="utf-8", errors="ignore") as f:
+        data = f.read()
+        with open(report_file, "w", encoding="utf-8", errors="ignore") as f:
+            f.write(data)
+    
+    for i in range(1, len(files)):
         duplicate_free = ""
-        with open(file, "r", encoding="utf-8", errors="ignore") as f:
-            data = f.read()
-            # remove duplicates
-            agent = init_agent()
-            response = agent.invoke(f"""return the same exact information back to me after removing duplicate information within the data:\n
-                                    {data}""")
-            duplicate_free = response.content
-        with open(f"{filtered_dir.joinpath(file.name)}", "w", encoding="utf-8", errors="ignore") as f:
+        with open(filtered_dir.joinpath(files[i]), "r", encoding="utf-8", errors="ignore") as f:
+            with open(report_file, "r", encoding="utf-8", errors="ignore") as rf:
+                data = rf.read() + "\n" + f.read()
+                # remove duplicate information
+                agent = init_agent()
+                response = agent.invoke(f"""return the same exact information back to me after removing duplicate information within the data:\n
+                                        {data}""")
+                duplicate_free += response.content
+
+        with open(report_file, "w", encoding="utf-8", errors="ignore") as f:
             f.write(duplicate_free)

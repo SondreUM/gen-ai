@@ -76,7 +76,6 @@ if __name__ == "__main__":
     search_wikipedia(org)
     parse_HTML()
     filter_data(org)
-    # remove_duplicates()
 
     # yellow = YellowpagesAPI()
     # results = yellow.search("uit")
