@@ -3,6 +3,8 @@
 > UiT The Arctic University of Norway\
 > FYS-3810 Generativ AI 24V Individual special curriculum - Master's degree
 
+- ⚠️ The project is not complete and under **very active** development.
+
 ## Table of contents
 
 - [Generative AI - course project](#generative-ai---course-project)
