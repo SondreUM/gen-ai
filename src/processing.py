@@ -40,7 +40,6 @@ if __name__ == "__main__":
 
     parse_HTML()
 
-
     # yellow = YellowpagesAPI()
     # results = yellow.search("uit")
 
