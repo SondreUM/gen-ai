@@ -8,15 +8,25 @@ from typing import Optional, List
 from dataclasses import dataclass, asdict, field
 from api.api import APIinterface
 
-from .req import _BnnApiRequestParams, _BnnResPage
-from .res import _OrganizationData, _BnnResLinks as _BnnResLink
+from config import DATA_PATH
+from api.bnn.req import _BnnApiRequestParams, _BnnResPage
+from api.bnn.res import _OrganizationData, _BnnResLinks as _BnnResLink
 
 
 HTTP = "http://"
 HTTPS = "https://"
 BASE_API_URL = "data.brreg.no/enhetsregisteret/api"
+BNN_DATA_PATH = DATA_PATH.joinpath("bnn")
 
 FORMAT = "JSON"  # JSON or XML
+
+
+def write2file(data: str | bytes, file_name: str) -> None:
+    """Write data to the api data path"""
+    if isinstance(data, str):
+        data = data.encode("utf-8")
+    with open(BNN_DATA_PATH.joinpath(file_name), "wb") as f:
+        f.write(data)
 
 
 class BNN(APIinterface):

@@ -1,0 +1,71 @@
+{
+    "organisasjonsnummer": "970422528",
+    "navn": "UNIVERSITETET I TROMS\u00d8 - NORGES ARKTISKE UNIVERSITET",
+    "organisasjonsform": {
+        "kode": "ORGL",
+        "beskrivelse": "Organisasjonsledd",
+        "_links": {
+            "self": {
+                "href": "https://data.brreg.no/enhetsregisteret/api/organisasjonsformer/ORGL"
+            }
+        }
+    },
+    "hjemmeside": "www.uit.no",
+    "postadresse": {
+        "land": "Norge",
+        "landkode": "NO",
+        "postnummer": "9037",
+        "poststed": "TROMS\u00d8",
+        "adresse": [
+            "Postboks 6050 Stakkevollan"
+        ],
+        "kommune": "TROMS\u00d8",
+        "kommunenummer": "5501"
+    },
+    "registreringsdatoEnhetsregisteret": "1995-03-12",
+    "registrertIMvaregisteret": true,
+    "naeringskode1": {
+        "kode": "85.421",
+        "beskrivelse": "Undervisning ved universiteter"
+    },
+    "naeringskode2": {
+        "kode": "72.190",
+        "beskrivelse": "Annen forskning og annet utviklingsarbeid innen naturvitenskap og teknikk"
+    },
+    "antallAnsatte": 5268,
+    "harRegistrertAntallAnsatte": true,
+    "overordnetEnhet": "872417842",
+    "forretningsadresse": {
+        "land": "Norge",
+        "landkode": "NO",
+        "postnummer": "9019",
+        "poststed": "TROMS\u00d8",
+        "adresse": [
+            "Hansine Hansens veg 18"
+        ],
+        "kommune": "TROMS\u00d8",
+        "kommunenummer": "5501"
+    },
+    "institusjonellSektorkode": {
+        "kode": "6100",
+        "beskrivelse": "Statsforvaltningen"
+    },
+    "registrertIForetaksregisteret": false,
+    "registrertIStiftelsesregisteret": false,
+    "registrertIFrivillighetsregisteret": false,
+    "konkurs": false,
+    "underAvvikling": false,
+    "underTvangsavviklingEllerTvangsopplosning": false,
+    "maalform": "Bokm\u00e5l",
+    "aktivitet": [
+        "forskning og undervisning"
+    ],
+    "_links": {
+        "self": {
+            "href": "https://data.brreg.no/enhetsregisteret/api/enheter/970422528"
+        },
+        "overordnetEnhet": {
+            "href": "https://data.brreg.no/enhetsregisteret/api/enheter/872417842"
+        }
+    }
+}
