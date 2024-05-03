@@ -6,6 +6,7 @@ from scrapy.crawler import CrawlerProcess
 from crawler.spiders.quotes_spider import QuotesSpider
 from scrapy.utils.project import get_project_settings
 import multiprocessing as mp
+from numpy import array_split
 
 
 def multicrawl(link_depth: tuple[list[str], int], timeout: int = 900) -> None:
