@@ -6,7 +6,6 @@ from scrapy.crawler import CrawlerProcess
 from crawler.spiders.quotes_spider import QuotesSpider
 from scrapy.utils.project import get_project_settings
 import multiprocessing as mp
-from numpy import array_split
 
 
 def multicrawl(link_depth: tuple[list[str], int], timeout: int = 900) -> None:
@@ -30,7 +29,7 @@ if __name__ == "__main__":
     splits = array_split(urls, mp.cpu_count())
     splits = [split.tolist() for split in splits if split.size > 0]
     input = [(split, max_depth) for split in splits]
-    
+
     with mp.Pool() as pool:
         for result in pool.imap_unordered(multicrawl, input):
             pass
