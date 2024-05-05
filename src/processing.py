@@ -28,7 +28,7 @@ def run_crawler(urls: list[str], max_depth: int):
             )
         case _:
             print("OS not supported")
-            
+
 
 def search_wikipedia(query: str) -> None:
     """Search wikipedia for the query"""
@@ -47,7 +47,7 @@ def search_wikipedia(query: str) -> None:
 
     with open(crawler_dir.joinpath("wikipedia.html"), "w", encoding="utf-8", errors="ignore") as f:
         f.write(data)
-            
+
 
 if __name__ == "__main__":
     config.init_paths()
@@ -60,7 +60,7 @@ if __name__ == "__main__":
     path.mkdir(parents=True, exist_ok=True)
     for file in path.iterdir():
         file.unlink()
-    
+
     relevant_urls = search_google(org)
 
     # remove wikipedia links due to their extreme amounts of links
