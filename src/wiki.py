@@ -23,7 +23,7 @@ def parse_results(results: list, query: str, verbose: bool) -> list[str]:
         response = agent.invoke(f""" Which of the following descriptions is most likely to contain relevant information about {query}?
                                 Descriptipn 1: {most_relevant_description} or description 2: {description}\n
                                 Do you think decription 1 is better than description 2?
-                                Respond only with yes if decription 1 is better end no if description 2 is better.\n
+                                Respond only with yes if decription 1 is better, and no if description 2 is better.\n
                                 """).content
         
         if "no" in response.lower()[:5]:
