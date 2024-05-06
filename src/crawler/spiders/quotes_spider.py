@@ -24,7 +24,7 @@ class QuotesSpider(scrapy.Spider):
         **kwargs: Any,
     ):
         self.start_urls = urls
-        if max_depth:
+        if max_depth is not None:
             self.max_depth = max_depth
 
         # check that the data directory exists
