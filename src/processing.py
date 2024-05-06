@@ -51,7 +51,7 @@ if __name__ == "__main__":
     for url in to_remove:
         relevant_urls.remove(url)
 
-    run_crawler(relevant_urls, 1)
+    run_crawler(relevant_urls, 0)
     search_wikipedia(org)
     parse_HTML()
     filter_data(org)
