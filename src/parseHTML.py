@@ -14,8 +14,8 @@ def parse_HTML():
         file.unlink()
 
     bs4_transformer = BeautifulSoupTransformer()
-    exclude = ["style", "script", "head", "title", "meta", "[document]"]
-    include = ["p", "h1", "h2", "h3", "h4", "h5", "h6", "a", "ul", "ol", "li", "div", "span", "b", "i"]
+    exclude = ["style", "script", "head", "title", "meta", "[document]", "a"]
+    include = ["p", "h1", "h2", "h3", "h4", "h5", "h6", "ul", "ol", "li", "div", "span", "b", "i"]
     document = []
  
     for file in crawler_dir.iterdir():
