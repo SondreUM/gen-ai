@@ -2,6 +2,7 @@ import scrapy
 from typing import Any
 from scrapy.crawler import CrawlerProcess
 from bs4 import BeautifulSoup
+from platform import system
 
 from config import DATA_PATH
 
@@ -29,6 +30,10 @@ class QuotesSpider(scrapy.Spider):
         # check that the data directory exists
         CRAWLER_DATA_PATH.mkdir(parents=True, exist_ok=True)
 
+        # determine invalid characters for filenames based on the operating system
+        os = system()
+        self.invalid_chars = ["/", "\\", ":", "*", "?", '"', "<", ">", "|"] if os == "Windows" else ["/", ":"]
+
         super().__init__(name, **kwargs)
 
     # find all unvisited links on the page
@@ -47,8 +52,12 @@ class QuotesSpider(scrapy.Spider):
         page = response.url.split("/")[-2]
         filename = f"{page}.html"
 
+        # remove invalid characters from filename
+        filename = "".join([char for char in filename if char not in self.invalid_chars])
+        
         # save data
-        (CRAWLER_DATA_PATH / filename).write_bytes(response.body)
+        with open(fr"{CRAWLER_DATA_PATH.joinpath(filename)}", "wb") as f:
+            f.write(response.body)
 
         if depth >= self.max_depth:
             # limit the depth of the crawler
