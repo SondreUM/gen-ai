@@ -30,7 +30,17 @@ def parse_results(results: list[SearchResult], query: str, verbose: bool) -> lis
 
 def search_google(query: str, verbose = False) -> list[str]:
     """Search google for the query, and return relevant ones"""
+
     results = list(search(query, lang='en', advanced=True))
+
+    # search for what the query is, and what it does, this is to get more diverse links to crawl
+    query_what = f"what is {query}"
+    query_do = f"what does {query} do"
+    results_what = list(search(query_what, lang='en', advanced=True))
+    results_do = list(search(query_do, lang='en', advanced=True))
+
+    results.extend(results_what)
+    results.extend(results_do)
 
     relevant = parse_results(results, query, verbose)
 
