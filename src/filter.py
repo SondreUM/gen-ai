@@ -62,9 +62,9 @@ def filter_data(organization: str) -> None:
             # read at least 3000 tokens before invoking the model (model limit of gpt-35 is 4096 tokens / 16385 characters)
             while True:
                 new_line = f.readline()
-                if len(new_line) // 4 + tokens > 3500:
+                if len(new_line) // 4 + tokens > 3000:
                     # handle excessively large lines
-                    to_read = 3500 - tokens
+                    to_read = 3000 - tokens
                     tokens = 0
                     data += new_line[:to_read]
                     new_line = new_line[to_read:]
@@ -84,7 +84,7 @@ def filter_data(organization: str) -> None:
                     if len(gpt_response) > 0:
                         result += f"\n{gpt_response}"
                     break
-                elif tokens > 3000:
+                elif tokens > 2500:
                     # approaching token limit
                     data += new_line
                     gpt_response = use_gpt(data, organization, file)
