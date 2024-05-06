@@ -14,7 +14,7 @@ def use_gpt(data: str, organization: str, file: Path) -> str:
             You are specifically looking for information about the the company called {organization}.
             Only respond with relevant information. if absolutely no useful information can be extract from the text,
             respond with 'NOTHING'. If specific information is not present in the text, do not make up information,
-            instead designate the information as 'not found'.
+            instead designate the information as 'not found'. If needed translate the information to English.
             Can you efficiently extract the relevant information from the following text:\n
             {data}"""
 
