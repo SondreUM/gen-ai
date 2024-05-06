@@ -45,12 +45,12 @@ def search_wikipedia(query: str) -> None:
     response = get(f"https://api.wikimedia.org/core/v1/wikipedia/en/search/title?q={modified_query}&limit=6")
     data = response.json()
 
-    print(json.dumps(data, indent=4))
+    # print(json.dumps(data, indent=4))
     if len(data["pages"]) == 0:
         print("No wikipedia page found, try using a more specific query.")
         return
     
-    most_relevant_page = parse_results(data["pages"], query, True)
+    most_relevant_page = parse_results(data["pages"], query, False)
     id = most_relevant_page["id"]
 
     # fetch the page
