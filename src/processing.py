@@ -7,7 +7,10 @@ import subprocess
 import platform
 from api.yellowpages.yellowpages import YellowpagesAPI
 from parseHTML import parse_HTML
-
+from argument_parser import init_parser
+from googling import search_google
+from wiki import search_wikipedia
+from filter import filter_data
 
 def run_crawler(urls: list[str], max_depth: int):
     """Bypass limitations of scrapy by running the crawler in a separate process"""
@@ -25,20 +28,33 @@ def run_crawler(urls: list[str], max_depth: int):
         case _:
             print("OS not supported")
 
-
 if __name__ == "__main__":
     config.init_paths()
+    arg_parser = init_parser()
+    args = arg_parser.parse_args()
+    org = args.entity
+
     # clean up data directory
     path: Path = config.DATA_PATH.joinpath("crawler_data")
     path.mkdir(parents=True, exist_ok=True)
-
     for file in path.iterdir():
         file.unlink()
 
-    run_crawler(["https://uit.no/research/csg?p_document_id=837262&Baseurl=%2Fresearch%2F"], 2)
-    run_crawler(["https://uit.no/startsida"], 1)
+    relevant_urls = search_google(org)
 
+    # remove wikipedia links due to their extreme amounts of links
+    # wikipedia search is handled separately
+    to_remove = []
+    for url in relevant_urls:
+        if "wikipedia" in url.lower():
+            to_remove.append(url)
+    for url in to_remove:
+        relevant_urls.remove(url)
+
+    run_crawler(relevant_urls, 0)
+    search_wikipedia(org)
     parse_HTML()
+    filter_data(org)
 
     # yellow = YellowpagesAPI()
     # results = yellow.search("uit")

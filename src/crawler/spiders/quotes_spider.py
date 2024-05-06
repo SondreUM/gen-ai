@@ -2,6 +2,7 @@ import scrapy
 from typing import Any
 from scrapy.crawler import CrawlerProcess
 from bs4 import BeautifulSoup
+from platform import system
 
 from config import DATA_PATH
 
@@ -23,11 +24,15 @@ class QuotesSpider(scrapy.Spider):
         **kwargs: Any,
     ):
         self.start_urls = urls
-        if max_depth:
+        if max_depth is not None:
             self.max_depth = max_depth
 
         # check that the data directory exists
         CRAWLER_DATA_PATH.mkdir(parents=True, exist_ok=True)
+
+        # determine invalid characters for filenames based on the operating system
+        os = system()
+        self.invalid_chars = ["/", "\\", ":", "*", "?", '"', "<", ">", "|"] if os == "Windows" else ["/", ":"]
 
         super().__init__(name, **kwargs)
 
@@ -36,17 +41,23 @@ class QuotesSpider(scrapy.Spider):
         soup = BeautifulSoup(response.body, "html.parser")
         links = []
         for link in soup.find_all("a"):
-            links.append(link.get("href"))
+            url = str(link.get("href"))
+            if url:
+                links.append(url)
 
-        return [link for link in links if str(link)[0] == "/" and link not in self.visited]
+        return [link for link in links if link[0] == "/" and link not in self.visited]
 
     def parse(self, response, depth=0):
         self.visited.append(response.url)
         page = response.url.split("/")[-2]
         filename = f"{page}.html"
 
+        # remove invalid characters from filename
+        filename = "".join([char for char in filename if char not in self.invalid_chars])
+        
         # save data
-        (CRAWLER_DATA_PATH / filename).write_bytes(response.body)
+        with open(fr"{CRAWLER_DATA_PATH.joinpath(filename)}", "wb") as f:
+            f.write(response.body)
 
         if depth >= self.max_depth:
             # limit the depth of the crawler
