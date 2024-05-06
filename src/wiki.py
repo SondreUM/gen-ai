@@ -29,7 +29,7 @@ def parse_results(results: list, query: str, verbose: bool) -> list[str]:
         if "no" in response.lower()[:5]:
             most_relevant = result
         elif verbose:
-            print(f"Discarding {result["key"]}")
+            print(f"Discarding {result['key']}")
             print(f"Reasoning: {response}")
             print(f"Description: {description}\n")
 
