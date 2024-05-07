@@ -1,4 +1,6 @@
+from abc import abstractmethod
 from pathlib import Path
+from langchain_core.messages.base import BaseMessage
 from langchain_openai.chat_models import AzureChatOpenAI
 
 from config import KEY_PATH
@@ -15,14 +17,29 @@ def init_agent() -> AzureChatOpenAI:
         API_KEY = file.read().strip()
 
     agent = AzureChatOpenAI(
-        api_key = API_KEY, 
-        api_version = API_VERSION, 
+        api_key = API_KEY,
+        api_version = API_VERSION,
         azure_endpoint = ENDPOINT,
         deployment_name = DEPLOYMENT_NAME
     )
 
     return agent
 
+class AbstractLLM:
+    @abstractmethod
+    def invoke(self, query: str, **kwargs) -> BaseMessage:
+        pass
+
+class LLM(AbstractLLM):
+    def __init__(self) -> None:
+        self.agent = init_agent()
+
+    def invoke(self, query: str, **kwargs) -> BaseMessage:
+        """query the llm and get a response"""
+        response = self.agent.invoke(query, kwargs=kwargs)
+
+        return response
+
 if __name__ == "__main__":
-    agent = init_agent()
-    print(agent.invoke("Hello, how are you?").content)
+    agent = LLM()
+    print(agent.invoke("Hello, how are you?"))
