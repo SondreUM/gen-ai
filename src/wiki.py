@@ -2,7 +2,6 @@ import config
 from pathlib import Path
 from requests import get
 from gpt import init_agent
-import json
 import wikipedia
 
 def parse_results(results: list, query: str, verbose: bool) -> list[str]:
@@ -41,7 +40,7 @@ def parse_results(results: list, query: str, verbose: bool) -> list[str]:
 
 def search_wikipedia(query: str) -> None:
     """Search wikipedia for the query"""
-    crawler_dir: Path = Path(config.DATA_PATH).joinpath("crawler_data")
+    parsed_dir: Path = Path(config.DATA_PATH).joinpath("parsed_data")
     modified_query = query.replace(" ", "%20")
     modified_query = modified_query.replace("&", "%26")
 
@@ -59,7 +58,7 @@ def search_wikipedia(query: str) -> None:
     # Get page by id
     page = wikipedia.page(pageid=id)
 
-    with open(crawler_dir.joinpath("wikipedia.html"), "w", encoding="utf-8", errors="ignore") as f:
+    with open(parsed_dir.joinpath("wikipedia.md"), "w", encoding="utf-8", errors="ignore") as f:
         f.write(page.content)
 
 
