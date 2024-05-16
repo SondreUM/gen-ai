@@ -1,12 +1,12 @@
 import config
 from pathlib import Path
-from gpt import init_agent
+from chat import LLM
 import os
 from openai import BadRequestError
 
 def use_gpt(data: str, organization: str, file: Path) -> str:
     """Use the GPT model to filter the data"""
-    agent = init_agent()
+    agent = LLM()
 
     prompt = f"""You are an investigator looking for information about a company and it's employees.
             This includes, but is not limited to, contact information, organization number, products, services,
@@ -37,7 +37,7 @@ def use_gpt(data: str, organization: str, file: Path) -> str:
 
         exit()
 
-    ret = "" if "NOTHING" in response.content else response.content
+    ret = "" if "NOTHING" in response else response
     return ret
 
 
@@ -123,10 +123,10 @@ def generate_report() -> None:
             with open(report_file, "r", encoding="utf-8", errors="ignore") as rf:
                 data = rf.read() + "\n" + f.read()
                 # remove duplicate information
-                agent = init_agent()
+                agent = LLM()
                 response = agent.invoke(f"""return the same exact information back to me after removing duplicate information within the data:\n
                                         {data}""")
-                duplicate_free += response.content
+                duplicate_free += response
 
         with open(report_file, "w", encoding="utf-8", errors="ignore") as f:
             f.write(duplicate_free)

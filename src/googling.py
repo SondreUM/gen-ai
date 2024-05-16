@@ -1,8 +1,8 @@
 from googlesearch import search, SearchResult
-from gpt import init_agent
+from chat import LLM
 
 def parse_results(results: list[SearchResult], query: str, verbose: bool) -> list[str]:
-    agent = init_agent()
+    agent = LLM()
     relevant = []
 
     agent.invoke(f"""You are an investigator looking for information about a company and it's employees.
@@ -13,7 +13,7 @@ def parse_results(results: list[SearchResult], query: str, verbose: bool) -> lis
 
         response = agent.invoke(f"""Do you think it is likely that a page with the following description would contain relevant information about {query}?
                                 Include a yes/no in your answer in addition to your reasoning.\n
-                                {description}""").content
+                                {description}""")
         if "yes" in response.lower():
             relevant.append(result)
         elif verbose:
@@ -21,7 +21,7 @@ def parse_results(results: list[SearchResult], query: str, verbose: bool) -> lis
             print(f"Reasoning: {response}")
             print(f"Description: {description}\n")
     if verbose:
-        print("\nRelevant results:")    
+        print("\nRelevant results:")
         for result in relevant:
             print(f"{result}\n")
 
