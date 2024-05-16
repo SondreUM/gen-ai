@@ -53,7 +53,6 @@ if __name__ == "__main__":
 
     run_crawler(relevant_urls, 0)
     search_wikipedia(org)
-    parse_HTML()
     parse_HTML_v2()
     filter_data(org)
 
