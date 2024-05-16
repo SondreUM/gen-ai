@@ -27,16 +27,16 @@ def init_agent() -> AzureChatOpenAI:
 
 class AbstractLLM:
     @abstractmethod
-    def invoke(self, query: str, **kwargs) -> BaseMessage:
+    def invoke(self, query: str, **kwargs) -> str | list[str | dict]:
         pass
 
 class LLM(AbstractLLM):
     def __init__(self) -> None:
         self.agent = init_agent()
 
-    def invoke(self, query: str, **kwargs) -> BaseMessage:
+    def invoke(self, query: str, **kwargs) -> str | list[str | dict]:
         """query the llm and get a response"""
-        response = self.agent.invoke(query, kwargs=kwargs)
+        response = self.agent.invoke(query, **kwargs).content
 
         return response
 
