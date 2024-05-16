@@ -2,7 +2,7 @@ import config
 from pathlib import Path
 from requests import get
 from gpt import init_agent
-import json
+import wikipedia
 
 def parse_results(results: list, query: str, verbose: bool) -> list[str]:
     agent = init_agent()
@@ -16,6 +16,9 @@ def parse_results(results: list, query: str, verbose: bool) -> list[str]:
     most_relevant_description = most_relevant["description"]
 
     results = results[1:]
+    if len(results) == 0:
+        print("Only 1 search result from wikipedia, returning it.")
+        return most_relevant
 
     # Compare descriptions to find the most relevant page
     for result in results:
@@ -37,7 +40,7 @@ def parse_results(results: list, query: str, verbose: bool) -> list[str]:
 
 def search_wikipedia(query: str) -> None:
     """Search wikipedia for the query"""
-    crawler_dir: Path = Path(config.DATA_PATH).joinpath("crawler_data")
+    parsed_dir: Path = Path(config.DATA_PATH).joinpath("parsed_data")
     modified_query = query.replace(" ", "%20")
     modified_query = modified_query.replace("&", "%26")
 
@@ -45,7 +48,6 @@ def search_wikipedia(query: str) -> None:
     response = get(f"https://api.wikimedia.org/core/v1/wikipedia/en/search/title?q={modified_query}&limit=6")
     data = response.json()
 
-    # print(json.dumps(data, indent=4))
     if len(data["pages"]) == 0:
         print("No wikipedia page found, try using a more specific query.")
         return
@@ -53,9 +55,10 @@ def search_wikipedia(query: str) -> None:
     most_relevant_page = parse_results(data["pages"], query, False)
     id = most_relevant_page["id"]
 
-    # fetch the page
-    response = get(f"http://en.wikipedia.org/?curid={id}")
-    data = response.text
+    # Get page by id
+    page = wikipedia.page(pageid=id)
 
-    with open(crawler_dir.joinpath("wikipedia.html"), "w", encoding="utf-8", errors="ignore") as f:
-        f.write(data)
+    with open(parsed_dir.joinpath("wikipedia.md"), "w", encoding="utf-8", errors="ignore") as f:
+        f.write(page.content)
+
+
