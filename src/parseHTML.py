@@ -1,6 +1,6 @@
 import config
 from pathlib import Path
-from langchain_community.document_transformers import BeautifulSoupTransformer
+from langchain_community.document_transformers.beautiful_soup_transformer import BeautifulSoupTransformer
 from langchain.docstore.document import Document
 from bs4 import BeautifulSoup
 from bs4.element import Comment
@@ -20,7 +20,7 @@ def parse_HTML():
     exclude = ["style", "script", "head", "title", "meta", "[document]", "a"]
     include = ["p", "h1", "h2", "h3", "h4", "h5", "h6", "ul", "ol", "li", "div", "span", "b", "i"]
     document = []
- 
+
     for file in crawler_dir.iterdir():
         if file.is_dir():
             continue
@@ -35,7 +35,7 @@ def parse_HTML():
     for idx, file in enumerate(crawler_dir.iterdir()):
         if file.is_dir():
             continue
-        
+
         with open(f"{parsed_dir.joinpath(file.with_suffix('.md').name)}", "w", encoding="utf-8", errors="ignore") as f:
             f.write(docs_transformed[idx].page_content)
 
@@ -52,7 +52,7 @@ def parse_HTML_v2():
         file.unlink()
 
     document = []
- 
+
     for file in crawler_dir.iterdir():
         if file.is_dir():
             continue
@@ -65,7 +65,7 @@ def parse_HTML_v2():
     for idx, file in enumerate(crawler_dir.iterdir()):
         if file.is_dir():
             continue
-        
+
         with open(f"{parsed_dir.joinpath(file.with_suffix('.md').name)}", "w", encoding="utf-8", errors="ignore") as f:
             f.write(document[idx])
 
@@ -81,5 +81,5 @@ def tag_visible(element):
 def text_from_html(body):
     soup = BeautifulSoup(body, 'html.parser')
     texts = soup.findAll(text=True)
-    visible_texts = filter(tag_visible, texts)  
+    visible_texts = filter(tag_visible, texts)
     return u" ".join(t.strip() for t in visible_texts)
