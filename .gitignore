@@ -2,7 +2,8 @@
 TEST.*
 
 # output files
-output/
+output/*
+!output/example_report.md
 
 # api keys
 keys

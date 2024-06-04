@@ -1,0 +1,76 @@
+Based on the information provided, relevant details about UiT The Arctic University of Norway are as follows:
+
+- Name: UiT The Arctic University of Norway
+- Information processed: Research, education, dissemination, and administration
+- Security, Emergency Preparedness, and Data Protection Management System
+- Contact information: Email for Privacy and Information Security Office
+- Updates to the management system were made by the University Board on the 22nd of June 2023
+- UiT's focus on research and education about the Arctic and the High North
+- UiT's goals include comprehensive, integrated and effective management and control, monitoring and incident management, and responsible culture
+- UiT has a risk-based approach to safeguarding security and emergency preparedness
+- UiT's value areas and acceptance criteria for civil protection include life and health, information security, physical objects, operational capability, reputation, external environment, and openness
+- The management system consists of three main elements: governing part, implementing part, and controlling part
+- The University Board processes and adopts the management system for security, emergency preparedness, and data protection at UiT
+- The Rector has overall responsibility for security, emergency preparedness, and data protection at UiT
+- The Administrative Director has the administrative responsibility for the management system for security, emergency preparedness, and data protection
+- Unit boards supervise their unit's work within security, emergency preparedness, and data protection
+- Heads of faculties and units are responsible for ensuring that the unit complies with the requirements for security, emergency preparedness, and data protection
+- UiT utilizes various services to ensure data confidentiality, availability, and integrity
+- UiT is subject to various laws, including GDPR, which impose requirements on the quality and terms of the services used
+- Private licenses for work are not permitted at UiT
+- Use of services from other higher education institutions for teaching activities must have agreements between UiT and the relevant institution
+- UiT has numerous systems and services that can and must be used, but not all are approved for all types of data
+- Information on which data can be processed where is determined through risk assessments and classification of information
+- Various systems and services have specific conditions and guidelines for their use
+- Use of video in teaching and other activities at UiT must comply with GDPR requirements and have a lawful basis for processing personal data
+- Digital lectures and seminars are utilized at UiT during periods when physical activities are cancelled and must have a legal basis for processing personal data
+- UiT categorizes various activities where video is utilized and emphasizes the necessity of assessing whether video is necessary for processing personal data to be lawful
+- The company has internal regulations and routines concerning security, emergency preparedness, and data protection
+- The company has a management system that covers information security, data protection, privacy, and emergency preparedness
+- The University Board adopted a new structure for the security, emergency preparedness, and data protection management system in June 2023
+- The company processes an extensive amount of personal data in all parts of its business
+- There are special considerations related to the reuse of information for new purposes and safeguarding individuals' rights
+- The company conducts risk assessments to reveal undesirable incidents/threats that may lead to a breach of information security
+- The company ensures that all processing of personal data meets regulatory requirements and takes place in a prudent and trustworthy manner
+- UiT is a company that processes personal data and is subject to the General Data Protection Regulation (GDPR)
+- They are responsible for compliance with the Norwegian Personal Data Act and the GDPR
+- They must adhere to specific conditions for processing personal data and must have a legal basis for processing
+- UiT must also keep records of all processing activities involving personal data and follow specific protocols for using data processors, transferring data to external parties, and transferring data abroad
+- They must also carry out a Data Protection Impact Assessment if there is a high risk to the rights and freedoms of natural persons
+- The company is also involved in research projects that require the maintenance of a protocol for processing activities
+- UiT is a university that works systematically and purposefully to manage risk levels through a risk-based approach to information security
+- The university has a dynamic risk level that must be continuously assessed, including measuring the safety culture among employees and students
+- Risk levels are categorized into four levels: Very high risk, High risk, Moderate risk, and Low risk
+- The university has specific guidelines for risk assessments of information security that are based on recognized standards
+- Unit managers and system owners are responsible for ensuring that risk assessments are implemented
+- The university has guidelines for handling identified risks/non-conformities and has specific instructions for reporting security-related irregularities and other information security-related nonconformities
+- UiT has a VPN (Virtual Private Network) and multi-factor authentication for employees and students
+- UiT is based in Norway
+- UiT (University in Norway) is responsible for processing personal data and the Director of Administration has the highest responsibility as the controller
+- The purpose and means of processing personal data must be determined by the controller
+- UiT may also share responsibility with others as joint controllers in certain instances
+- When UiT discloses personal data to another organization, that organization becomes fully responsible for processing the data
+- UiT must have a lawful basis for processing and must ensure that a written data processor agreement is in place before utilizing a data processor
+- The data processor must comply with specific requirements outlined in the agreement
+- UiT Norges arktiske universitet is the official name of the company, and it is located in Tromsø, Norway
+- The organization is led by a rector and a board and is organized into several faculties and units
+- UiT Norges arktiske universitet was established in 1968 with several mergers with other institutions
+- The university has around 15,000 students and around 3200 employees
+- The NACE (Nomenclature of Economic Activities) code for the company is 85.421 for higher education at universities and 72.190 for other research and development in natural sciences and engineering.
+- Contact Information:
+  - Email: not found
+  - Internet: not found
+  - Telephone: +47 77 64 40 00
+  - Mail: UiT The Arctic University of Norway - SIS P.O.box 6050 Langnes NO-9037 TROMSØ, Norway
+  - Visiting in Tromsø: 2nd level, Offices 201 - 209
+- Products/Services: 
+  - Education and research in the following areas of knowledge:
+    - Energy, climate, society, and environment
+    - Technology
+    - Health, welfare, and quality of life
+    - Community development and democratization
+    - Sustainable use of resources
+- UiT The Arctic University of Norway is a medium-sized research university that contributes to knowledge-based development regionally, nationally, and internationally.
+- They emphasize international cooperation and aim to be at the international forefront in various fields of knowledge.
+- They prioritize offering research-based education of the highest international quality standards and facilitating increased international mobility for students and employees.
+- They aim to be a research-driven university with innovative researchers and research groups at the international research frontier.
