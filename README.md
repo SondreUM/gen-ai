@@ -21,7 +21,7 @@
 
 ## Project description
 
-An OSINT (Open Source INTelligence) tool that creates a report about  a chosen organization, company or individual.
+An OSINT (Open Source INTelligence) tool that creates a report about a chosen organization, company or individual.
 
 The tool can extract information with the following targets
 
@@ -83,7 +83,7 @@ The key can be obtained from <https://beta.openai.com/signup/>
 To run the project, you can run the following command:
 
 ```bash
-python src/main.py
+python src/processing.py -e <insert entity>
 ```
 
 ---
