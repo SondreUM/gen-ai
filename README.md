@@ -3,7 +3,7 @@
 > UiT The Arctic University of Norway\
 > FYS-3810 Generativ AI 24V Individual special curriculum - Master's degree
 
-- ⚠️ The project is not complete and under **very active** development.
+- ⚠️ This project is a proof of concept, and is not intended for production use.
 
 ## Table of contents
 
@@ -16,7 +16,6 @@
       - [Optional keys](#optional-keys)
   - [Usage](#usage)
   - [Project structure](#project-structure)
-    - [Models](#models)
   - [Disclaimer](#disclaimer)
 
 ## Project description
@@ -25,9 +24,11 @@ An OSINT (Open Source INTelligence) tool that creates a report about a chosen or
 
 The tool can extract information with the following targets
 
-- Person
-- Organization/Company
-- Person in a organization or company
+- Company
+- Organization
+
+More targets may be added in the future.
+Other targets may work, but are not guaranteed or supported.
 
 The data is then used to generate a report containing information about the target.
 The report may contain the following information:
@@ -50,7 +51,7 @@ git clone git@github.com:SondreUM/gen-ai.git
 ```
 
 To run the project, you need to have `python3` version 3.10 or newer, and `python3-pip` installed on your system.
-Then, you can install the project dependencies by running the following commands:
+Then, you can install the project dependencies by running the following command:
 
 ```bash
 pip install -r requirements.txt
@@ -91,10 +92,6 @@ python src/processing.py -e <insert entity>
 ## Project structure
 
 ![UML diagram](docs/img/uml_bck.png "UML diagram")
-
-### Models
-
-TODO
 
 ## Disclaimer
 
