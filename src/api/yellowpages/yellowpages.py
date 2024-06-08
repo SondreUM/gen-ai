@@ -21,10 +21,10 @@ class YellowpagesAPI(APIinterface):
             with open(KEY_PATH / "1881_key.txt") as file:
                 self.API_KEY = file.read().strip()
                 if self.API_KEY == "":
-                    self.API_KEY = None
                     raise FileNotFoundError
         except FileNotFoundError:
             print("1881 API key not provided. Please add it to keys/1881_key.txt")
+            self.API_KEY = None
             return
 
         self.headers = {"Cache-Control": "no-cache", "Ocp-Apim-Subscription-Key": self.API_KEY}
