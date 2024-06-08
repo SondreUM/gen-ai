@@ -56,12 +56,12 @@ if __name__ == "__main__":
     parse_HTML_v2()
     filter_data(org)
 
-    # yellow = YellowpagesAPI()
-    # results = yellow.search("uit")
+    yellow = YellowpagesAPI()
+    results = yellow.search("uit")
 
-    # # Get the first 3 results
-    # first_3 = results[:3]
-    # for contact in first_3:
-    #     orgnum = contact['organizationNumber']
-    #     name = contact['name']
-    #     yellow.get(orgnum, name)
+    # Get the first 3 results
+    first_3 = results[:3]
+    for contact in first_3:
+        orgnum = contact['organizationNumber']
+        name = contact['name']
+        yellow.get(orgnum, name)
