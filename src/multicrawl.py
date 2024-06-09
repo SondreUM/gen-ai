@@ -15,7 +15,7 @@ def multicrawl(link_depth: tuple[list[str], int], timeout: int = 900) -> None:
     process = CrawlerProcess(settings=get_project_settings())
     process.crawl(QuotesSpider, urls=urls, max_depth=max_depth)
     process.start()
-    print(f"Finished crawling {urls} to a depth of {max_depth}")
+    # print(f"Finished crawling {urls} to a depth of {max_depth}")
 
 
 if __name__ == "__main__":
@@ -32,5 +32,10 @@ if __name__ == "__main__":
     input = [(split, max_depth) for split in splits]
 
     with mp.Pool() as pool:
+        i = 1
+        print(f"Starting {mp.cpu_count()} crawlers")
         for result in pool.imap_unordered(multicrawl, input):
-            pass
+            print(f"Crawler {i} of {mp.cpu_count()} finished")
+            i += 1
+    
+    print("\n")
