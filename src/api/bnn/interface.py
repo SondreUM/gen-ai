@@ -8,7 +8,7 @@ from typing import Optional, List
 from dataclasses import dataclass, asdict, field
 from api.api import APIinterface
 
-from config import DATA_PATH
+from config import API_PATH
 from api.bnn.req import _BnnApiRequestParams, _BnnResPage
 from api.bnn.res import _OrganizationData, _BnnResLinks as _BnnResLink
 
@@ -16,7 +16,7 @@ from api.bnn.res import _OrganizationData, _BnnResLinks as _BnnResLink
 HTTP = "http://"
 HTTPS = "https://"
 BASE_API_URL = "data.brreg.no/enhetsregisteret/api"
-BNN_DATA_PATH = DATA_PATH.joinpath("bnn")
+BNN_DATA_PATH = API_PATH.joinpath("bnn")
 
 FORMAT = "JSON"  # JSON or XML
 
@@ -98,12 +98,13 @@ class BNN(APIinterface):
         return self._search_data[id]
 
     @staticmethod
-    def get_org(org_nr: str) -> dict:
+    def get_org(org_nr: str):
         res = requests.get(
             f"{HTTPS}{BASE_API_URL}/enheter/{org_nr.strip().replace(' ', '')}",
             headers={"Accept": "application/json;charset=UTF-8"},
         )
         res.raise_for_status()
+        write2file(res.json(), f"{org_nr}.json")
         return res.json()
 
     def serialize(self) -> str:

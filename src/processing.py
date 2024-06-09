@@ -5,12 +5,15 @@ import config
 from pathlib import Path
 import subprocess
 import platform
-from api.yellowpages.yellowpages import YellowpagesAPI
-from parseHTML import parse_HTML, parse_HTML_v2
+from parseHTML import parse_HTML_v2
 from argument_parser import init_parser
 from googling import search_google
 from wiki import search_wikipedia
 from filter import filter_data
+
+# API imports
+from api.bnn.interface import BNN, write2file
+from api.yellowpages.yellowpages import YellowpagesAPI
 
 def run_crawler(urls: list[str], max_depth: int):
     """Bypass limitations of scrapy by running the crawler in a separate process"""
@@ -27,6 +30,7 @@ def run_crawler(urls: list[str], max_depth: int):
             )
         case _:
             print("OS not supported")
+
 
 if __name__ == "__main__":
     config.init_paths()
@@ -54,14 +58,26 @@ if __name__ == "__main__":
     run_crawler(relevant_urls, 0)
     search_wikipedia(org)
     parse_HTML_v2()
-    filter_data(org)
 
+    # run API modules
     yellow = YellowpagesAPI()
-    results = yellow.search("uit")
+    # organization number provided
+    if args.orgnr:
+        orgnum = args.orgnr
+        yellow.get(orgnum, org)
+        BNN.get_org(orgnum)
 
-    # Get the first 3 results
-    first_3 = results[:3]
-    for contact in first_3:
-        orgnum = contact['organizationNumber']
-        name = contact['name']
-        yellow.get(orgnum, name)
+    # search for organization number
+    else:
+        results = yellow.search(args.entity)
+
+        # Get the first 3 results
+        first_3 = results[:3]
+        for contact in first_3:
+            orgnum = contact["organizationNumber"]
+            name = contact["name"]
+            yellow.get(orgnum, name)
+
+            BNN.get_org(orgnum)
+
+    filter_data(org)
