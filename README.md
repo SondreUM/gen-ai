@@ -84,7 +84,7 @@ The key can be obtained from <https://beta.openai.com/signup/>
 To run the project, you can run the following command:
 
 ```bash
-python src/processing.py -e <insert entity>
+python3 src/processing.py -e <insert entity>
 ```
 
 ---
