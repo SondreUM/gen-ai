@@ -5,7 +5,7 @@ TEST.*
 output/*
 
 # not ignore example files
-!output/example_UiT_bnn.json
+!output/example_UiT_brreg.json
 !output/example_report.md
 
 # api keys

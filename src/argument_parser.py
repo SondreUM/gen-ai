@@ -10,6 +10,9 @@ def init_parser():
     parser.add_argument(
         "-e", "--entity", type=str, help="Organization, or company name", required=True
     )
+    parser.add_argument(
+        "--orgnr", type=str, help="Organization number", required=False, default=None
+    )
     parser.add_argument("-o", "--output", type=str, help="Output file", required=False)
     parser.add_argument(
         "-v", "--verbose", default=False, action="store_true", help="Increase output verbosity"
