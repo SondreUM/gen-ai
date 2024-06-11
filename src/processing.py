@@ -12,8 +12,9 @@ from wiki import search_wikipedia
 from filter import filter_data
 
 # API imports
-from api.bnn.interface import BNN, write2file
+from api.brreg.interface import BRREG, write2file
 from api.yellowpages.yellowpages import YellowpagesAPI
+
 
 def run_crawler(urls: list[str], max_depth: int):
     """Bypass limitations of scrapy by running the crawler in a separate process"""
@@ -65,7 +66,7 @@ if __name__ == "__main__":
     if args.orgnr:
         orgnum = args.orgnr
         yellow.get(orgnum, org)
-        BNN.get_org(orgnum)
+        BRREG.get_org(orgnum)
 
     # search for organization number
     else:
@@ -78,6 +79,6 @@ if __name__ == "__main__":
             name = contact["name"]
             yellow.get(orgnum, name)
 
-            BNN.get_org(orgnum)
+            BRREG.get_org(orgnum)
 
     filter_data(org)

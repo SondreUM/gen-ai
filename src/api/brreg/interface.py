@@ -9,14 +9,14 @@ from dataclasses import dataclass, asdict, field
 from api.api import APIinterface
 
 from config import API_PATH
-from api.bnn.req import _BnnApiRequestParams, _BnnResPage
-from api.bnn.res import _OrganizationData, _BnnResLinks as _BnnResLink
+from api.brreg.req import _BrregApiRequestParams, _BrregResPage
+from api.brreg.res import _OrganizationData, _BrregResLinks as _BrregResLink
 
 
 HTTP = "http://"
 HTTPS = "https://"
 BASE_API_URL = "data.brreg.no/enhetsregisteret/api"
-BNN_DATA_PATH = API_PATH.joinpath("bnn")
+BRREG_DATA_PATH = API_PATH.joinpath("brreg")
 
 FORMAT = "JSON"  # JSON or XML
 
@@ -25,15 +25,15 @@ def write2file(data: str | bytes, file_name: str) -> None:
     """Write data to the api data path"""
     if isinstance(data, str):
         data = data.encode("utf-8")
-    with open(BNN_DATA_PATH.joinpath(file_name), "wb") as f:
+    with open(BRREG_DATA_PATH.joinpath(file_name), "wb") as f:
         f.write(data)
 
 
-class BNN(APIinterface):
+class BRREG(APIinterface):
     def __init__(self) -> None:
         self._search_data: list = []
-        self._search_link: _BnnResLink | None = None
-        self._search_meta: _BnnResPage | None = None
+        self._search_link: _BrregResLink | None = None
+        self._search_meta: _BrregResPage | None = None
         self._seach_url: str = f"{HTTPS}{BASE_API_URL}/enheter"
         self._search_header: dict[str, str] = {
             "Accept": "application/json;charset=UTF-8",
@@ -45,11 +45,11 @@ class BNN(APIinterface):
 
     def _res_parse(self, data: dict) -> None:
         self._search_data = data.get("_embedded", {}).get("enheter", [])
-        self._search_meta = _BnnResPage(**data.get("page", None))
-        self._search_link = _BnnResLink.res_parse(data.get("_links", {}))
+        self._search_meta = _BrregResPage(**data.get("page", None))
+        self._search_link = _BrregResLink.res_parse(data.get("_links", {}))
 
     def search(self, query: str | None, **kwargs) -> list[dict]:
-        """implements the search method for the BNN API
+        """implements the search method for the BRREG API
 
         Args:
             query (str | None): The search query
@@ -58,7 +58,7 @@ class BNN(APIinterface):
             list[dict]: The search results
         """
         # create request
-        params = _BnnApiRequestParams(navn=query, **kwargs)
+        params = _BrregApiRequestParams(navn=query, **kwargs)
 
         req = requests.get(
             url=self._seach_url,
@@ -111,5 +111,5 @@ class BNN(APIinterface):
         return json.dumps(self.__dict__)
 
     @staticmethod
-    def deserialize(data: str) -> BNN:
-        return BNN(**json.loads(data))
+    def deserialize(data: str) -> BRREG:
+        return BRREG(**json.loads(data))
