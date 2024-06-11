@@ -98,7 +98,7 @@ class _OrganizationData:
 
 
 @dataclass
-class _BnnResLinks:
+class _BrregResLinks:
     """Dataclass for response links
     ref: https://data.brreg.no/enhetsregisteret/api/docs/index.html#enheter-sok
     """
@@ -115,15 +115,15 @@ class _BnnResLinks:
         return json.dumps(self.to_dict())
 
     @staticmethod
-    def res_parse(data: dict) -> _BnnResLinks:
+    def res_parse(data: dict) -> _BrregResLinks:
         tmp = {}
         for k, v in data.items():
             if v is not None and isinstance(v, dict):
                 tmp[k] = v.get("href", None)
-        return _BnnResLinks(**tmp)
+        return _BrregResLinks(**tmp)
 
     @staticmethod
-    def deserialize(data: str) -> _BnnResLinks:
+    def deserialize(data: str) -> _BrregResLinks:
         """
         Input:
 
@@ -141,4 +141,4 @@ class _BnnResLinks:
             }
 
         """
-        return _BnnResLinks.res_parse(json.loads(data))
+        return _BrregResLinks.res_parse(json.loads(data))

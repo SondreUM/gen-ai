@@ -8,7 +8,7 @@ from dataclasses import dataclass, asdict, field
 
 
 @dataclass
-class _BnnApiRequestParams:
+class _BrregApiRequestParams:
     """Dataclass for request parameters
     ref: https://data.brreg.no/enhetsregisteret/api/docs/index.html#enheter-sok
     """
@@ -67,12 +67,12 @@ class _BnnApiRequestParams:
         return json.dumps(self.to_dict())
 
     @staticmethod
-    def deserialize(data: str) -> _BnnApiRequestParams:
-        return _BnnApiRequestParams(**json.loads(data))
+    def deserialize(data: str) -> _BrregApiRequestParams:
+        return _BrregApiRequestParams(**json.loads(data))
 
 
 @dataclass
-class _BnnResPage:
+class _BrregResPage:
     """Dataclass for response page
     ref: https://data.brreg.no/enhetsregisteret/api/docs/index.html#enheter-sok
     """
@@ -89,5 +89,5 @@ class _BnnResPage:
         return json.dumps(self.to_dict())
 
     @staticmethod
-    def deserialize(data: str) -> _BnnResPage:
-        return _BnnResPage(**json.loads(data))
+    def deserialize(data: str) -> _BrregResPage:
+        return _BrregResPage(**json.loads(data))

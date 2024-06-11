@@ -1,7 +1,7 @@
 import requests
 import json
 from pathlib import Path
-from config import DATA_PATH, KEY_PATH
+from config import API_PATH, KEY_PATH
 from api.api import APIinterface
 
 API_KEY = None
@@ -11,7 +11,7 @@ class YellowpagesAPI(APIinterface):
 
     def __init__(self):
 
-        path: Path = DATA_PATH.joinpath("yellowpages_data")
+        path: Path = API_PATH.joinpath("yellowpages_data")
         path.mkdir(parents=True, exist_ok=True)
 
         for file in path.iterdir():
