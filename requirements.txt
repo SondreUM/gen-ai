@@ -1,5 +1,5 @@
 beautifulsoup4==4.12.3
-langchain-openai==0.1.17
+langchain-openai==0.1.20
 Scrapy>=2.11.1, <2.12.0
 langchain==0.2.11
 googlesearch-python==1.2.4
