@@ -1,9 +1,13 @@
 # Generative AI - course project
 
-> UiT The Arctic University of Norway\
-> FYS-3810 Generativ AI 24V Individual special curriculum - Master's degree
+> ⚠️ This project is now archived and will not be maintained. ⚠️\
+> You are free to fork the project and continue development according to the license.
+>
+> This project is a proof of concept, and is not intended for production use.
 
-- ⚠️ This project is a proof of concept, and is not intended for production use.
+> Part of the course:\
+> FYS-3810 Generativ AI 24V Individual special curriculum - Master's degree\
+> UiT The Arctic University of Norway
 
 ## Table of contents
 
